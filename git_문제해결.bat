@@ -69,9 +69,12 @@ REM 커밋되지 않은 파일이 있는지 확인
 git diff --cached --quiet
 if errorlevel 1 (
     echo [정보] 커밋되지 않은 파일이 있습니다. 커밋을 생성합니다...
-    set /p COMMIT_MSG="커밋 메시지를 입력하세요 (Enter: 기본 메시지 사용): "
-    if "%COMMIT_MSG%"=="" (
-        set COMMIT_MSG=Initial commit: Yahoo Finance ETF crawler
+    set COMMIT_MSG=Update: Add GitHub guides and helper scripts
+    echo [정보] 기본 커밋 메시지 사용: %COMMIT_MSG%
+    echo [안내] 다른 메시지를 원하시면 Enter를 누르지 말고 입력하세요.
+    set /p USER_MSG="커밋 메시지 (Enter: 기본 메시지 사용): "
+    if not "%USER_MSG%"=="" (
+        set COMMIT_MSG=%USER_MSG%
     )
     git commit -m "%COMMIT_MSG%"
     if errorlevel 1 (
@@ -79,7 +82,7 @@ if errorlevel 1 (
         pause
         exit /b 1
     )
-    echo [성공] 커밋 완료
+    echo [성공] 커밋 완료: %COMMIT_MSG%
 ) else (
     echo [정보] 모든 파일이 이미 커밋되어 있습니다.
 )
